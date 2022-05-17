@@ -11,11 +11,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         >
-        <fragment
-            android:id="@+id/autocomplete_fragment"
-            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        <fragment android:id="@+id/autocomplete_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             />
     </androidx.cardview.widget.CardView>
 

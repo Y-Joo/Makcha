@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity{
-    private double departure_lat, departure_lng;
-    private double arrive_lat, arrive_lng;
+    private String departure_id;
+    private String arrive_id;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +47,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 // TODO: Get info about the selected place.
-                departure_lat = Objects.requireNonNull(place.getLatLng()).latitude;
-                departure_lng = Objects.requireNonNull(place.getLatLng()).longitude;
-                Log.i(TAG, "Place: " + place.getName() + "\n" + departure_lat + ", " + departure_lng);
+                departure_id = place.getId();
             }
 
             @Override
@@ -62,9 +60,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 // TODO: Get info about the selected place.
-                arrive_lat = Objects.requireNonNull(place.getLatLng()).latitude;
-                arrive_lng = Objects.requireNonNull(place.getLatLng()).longitude;
-                Log.i(TAG, "Place: " + place.getName() + "\n" + arrive_lat + ", " + arrive_lng);
+                arrive_id = place.getId();
             }
 
             @Override
@@ -76,10 +72,8 @@ public class MainActivity extends AppCompatActivity{
     }
     public void clickBtn(View view){
         Intent intent = new Intent(this, CalculationActivity.class);
-        intent.putExtra("departure_lat", departure_lat);
-        intent.putExtra("departure_lng", departure_lng);
-        intent.putExtra("arrive_lat", arrive_lat);
-        intent.putExtra("arrive_lng", arrive_lng);
+        intent.putExtra("departure_id", departure_id);
+        intent.putExtra("arrive_id", arrive_id);
         startActivity(intent);
         finish();
     }

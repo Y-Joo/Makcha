@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -20,8 +21,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity{
-    private String departure_id;
-    private String arrive_id;
+    private LatLng departure_latlng;
+    private LatLng arrive_latlng;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 // TODO: Get info about the selected place.
-                departure_id = place.getId();
+                departure_latlng = place.getLatLng();
             }
 
             @Override
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 // TODO: Get info about the selected place.
-                arrive_id = place.getId();
+                arrive_latlng = place.getLatLng();
             }
 
             @Override
@@ -72,8 +73,10 @@ public class MainActivity extends AppCompatActivity{
     }
     public void clickBtn(View view){
         Intent intent = new Intent(this, CalculationActivity.class);
-        intent.putExtra("departure_id", departure_id);
-        intent.putExtra("arrive_id", arrive_id);
+        intent.putExtra("departure_lat", Double.toString(departure_latlng.latitude));
+        intent.putExtra("departure_lng", Double.toString(departure_latlng.longitude));
+        intent.putExtra("arrive_lat", Double.toString(arrive_latlng.latitude));
+        intent.putExtra("arrive_lng", Double.toString(arrive_latlng.longitude));
         startActivity(intent);
         finish();
     }

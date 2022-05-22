@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/mainLayout"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
@@ -54,12 +55,13 @@
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:text="검색"
-        android:onClick="clickBtn"/>
+        android:onClick="clickSearchButton"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/directionCardList">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,8 +95,8 @@
         </LinearLayout>
 
         <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

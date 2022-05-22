@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Makcha">
         <activity
+            android:name=".DetailedInform"
+            android:exported="false" />
+        <activity
             android:name=".CalculationActivity"
             android:exported="false" />
         <activity

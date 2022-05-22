@@ -3,12 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable-v24/bluebar.xml" value="0.2085" />
-        <entry key="app/src/main/res/drawable-v24/blueoval.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable-v24/greybar.xml" value="0.127" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.104" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.104" />
         <entry key="app/src/main/res/layout/activity_calculation.xml" value="0.18758724046790082" />
+        <entry key="app/src/main/res/layout/activity_detailedinform.xml" value="0.19796243254671392" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2657821655273437" />
         <entry key="app/src/main/res/layout/strings.xml" value="0.146875" />
       </map>

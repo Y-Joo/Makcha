@@ -391,5 +391,9 @@ public class MainActivity extends AppCompatActivity{
         }
         barLayout.addView(moveType);
     }
-
+    public int findCardIndex(LinearLayout parentLayout, View view) {
+        int index = parentLayout.indexOfChild(view);
+        index = index / 3;
+        return index;
+    }
 }

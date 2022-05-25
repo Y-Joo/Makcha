@@ -1,15 +1,23 @@
 package com.example.makcha;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DetailedInform extends AppCompatActivity {
 
@@ -20,21 +28,47 @@ public class DetailedInform extends AppCompatActivity {
 
         LinearLayout detailedPage = (LinearLayout)findViewById(R.id.detailedPage);
 
-
         //middle 중간 레이아웃 => 이미지 경로 나타냄
         LinearLayout.LayoutParams middleParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
         middleParams.weight = 4;
         LinearLayout middleBaseLayout = new LinearLayout(this);
         middleBaseLayout.setOrientation(LinearLayout.VERTICAL);
         middleBaseLayout.setLayoutParams(middleParams);
-        makeCard(1, this, "쌍용스윗닷홈, 우성. 건영아파트",  "1660번 버스", middleBaseLayout);
-        makeCard(2, this, "경의중앙선 도심역",  "", middleBaseLayout);
-        makeCard(0, this, "도보 이동 00분 (도심역 -> 덕소역)",  "", middleBaseLayout);
+
+        Intent intent = getIntent();
+        JSONObject route_detail = null;
+        try {
+            route_detail = new JSONObject(intent.getStringExtra("route_detail"));
+            JSONArray steps_arr = route_detail.getJSONArray("steps");
+            for (int i = 0; i < steps_arr.length(); i++){
+                JSONObject step_obj = steps_arr.getJSONObject(i);
+                String step_type = step_obj.getString("travel_mode");
+                if (step_type.equals("WALKING"))
+                    makeCard(0, this, step_obj.getString("html_instructions"), "", middleBaseLayout);
+                else{
+                    String departure_stop = step_obj.getJSONObject("transit_details").getJSONObject("departure_stop").getString("name");
+                    String transit_inform = step_obj.getJSONObject("transit_details").getJSONObject("line").getString("short_name");
+                    Log.i(TAG, departure_stop + transit_inform);
+                    if (step_type.equals("BUS"))
+                        makeCard(1, this, departure_stop, transit_inform + "번 버스", middleBaseLayout);
+                    else
+                        makeCard(2, this, departure_stop, "지하철 " + transit_inform, middleBaseLayout);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //transit_detail.line.short_name - 2호선, 7780 transit_detail.line.vehicle.type == SUBWAY - 지하철 html_instructions - 사당까지 도보
+        //transit_detail.departure_stop.name - 출발역
+        
+//        makeCard(1, this, "쌍용스윗닷홈, 우성. 건영아파트",  "1660번 버스", middleBaseLayout);
+//        makeCard(2, this, "경의중앙선 도심역",  "", middleBaseLayout);
+//        makeCard(0, this, "도보 이동 00분 (도심역 -> 덕소역)",  "", middleBaseLayout);
         
 
     }
     //type 0: 도보 , 1: 버스 , 2: 지하철
-    public void makeCard(int type, Context parent, String location, String busInform, LinearLayout middleBaseLayout)
+    public void makeCard(int type, Context parent, String location, String transitInform, LinearLayout middleBaseLayout)
     {
         //카드 생성
         LinearLayout.LayoutParams directionCardParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -67,11 +101,14 @@ public class DetailedInform extends AppCompatActivity {
 
         LinearLayout.LayoutParams locationTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 60);
         locationTextParams.weight = 5;
-        if (type == 1) {
+        if (type == 1 || type == 2) {
             TextView locationText = new TextView(this);
-            locationText.setText(busInform);
+            locationText.setText(transitInform);
             locationText.setGravity(Gravity.CENTER_VERTICAL);
-            locationText.setTextColor(Color.rgb(204,0,0));
+            if (type == 2)
+                locationText.setTextColor(Color.rgb(0, 0, 150));
+            else
+                locationText.setTextColor(Color.rgb(204,0,0));
             locationText.setLayoutParams(locationTextParams);
             textInform.addView(locationText);
         }
@@ -83,7 +120,7 @@ public class DetailedInform extends AppCompatActivity {
             locationText2.setTextColor(Color.rgb(150,150,150));
         }
         else if (type == 1) {
-            locationText2.setTextColor(Color.rgb(0,0,150));
+            locationText2.setTextColor(Color.rgb(150,150,150));
         }
         else if (type == 2) {
             locationText2.setTextColor(Color.rgb(0,150,0));

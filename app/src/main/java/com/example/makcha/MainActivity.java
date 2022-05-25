@@ -49,6 +49,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity{
+    private MainActivity sup;
     private LatLng departure_latlng;
     private LatLng arrive_latlng;
 
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sup = this;
         Places.initialize(getApplicationContext(), getString(R.string.api_key));
 
         // Initialize the AutocompleteSupportFragment.
@@ -98,61 +101,6 @@ public class MainActivity extends AppCompatActivity{
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void showDirection(){
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        String url_str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + Double.toString(departure_latlng.latitude) + "," + Double.toString(departure_latlng.longitude) + "&destination=" + Double.toString(arrive_latlng.latitude) + "," + Double.toString(arrive_latlng.longitude) + "&mode=transit&alternatives=true&language=ko&key=" + getString(R.string.api_key);
-        Request request = new Request.Builder()
-                .url(url_str)
-                .method("GET", null)
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            ResponseBody responseBody = response.body();
-            JSONObject jsonObject = new JSONObject(responseBody.string());
-            Log.i(TAG, "response : " + jsonObject.toString(2));
-            JSONArray jsonArray = jsonObject.getJSONArray("routes");
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject obj = (JSONObject)jsonArray.get(i);
-                JSONArray legsArr = obj.getJSONArray("legs");
-                for(int j = 0; j < legsArr.length();j++)
-                {
-                    JSONObject detailObj = legsArr.getJSONObject(j);
-                    //arrival time, departure time, duration - value
-                    String arrival_time = detailObj.getJSONObject("arrival_time").getString("text");
-                    Date date = new Date();
-                    long departure_time =  (detailObj.getJSONObject("departure_time").getLong("value") - Instant.now().getEpochSecond() + 60) / 60;
-                    long duration = (detailObj.getJSONObject("duration").getLong("value") + 30) / 60;
-                    Log.i(TAG, "time_to_departure_time : " + departure_time + "분, duration : " + duration + ", arrival_time : " + arrival_time);
-                    Log.i(TAG, "=================================");
-                    JSONArray stepsArr = detailObj.getJSONArray("steps");
-                    for(int k = 0;k < stepsArr.length(); k++)
-                    {
-                        JSONObject stepObj = stepsArr.getJSONObject(k);
-                        //duration, vehicle
-                        long step_duration = (stepObj.getJSONObject("duration").getLong("value") + 30) / 60;
-                        String vehicle;
-                        if (stepObj.getString("travel_mode").equals("TRANSIT")) {
-                            vehicle = stepObj.getJSONObject("transit_details").getJSONObject("line").getJSONObject("vehicle").getString("type");
-                            //Log.i(TAG, "step : " + stepObj.getString("html_instructions") + ", departure_stop : " + stepObj.getJSONObject("transit_details").getJSONObject("departure_stop").getString("name") + ", departure_name : " + stepObj.getJSONObject("transit_details").getJSONObject("departure_time").getString("text") + ", arrival_stop : " + stepObj.getJSONObject("transit_details").getJSONObject("arrival_stop").getString("name") + ", arrival_time : " + stepObj.getJSONObject("transit_details").getJSONObject("arrival_time").getString("text"));
-                        }
-                        else {
-                            vehicle = "WALKING";
-                            //Log.i(TAG, "step : " + stepObj.getString("html_instructions"));
-                        }
-                        Log.i(TAG, "step_duration : " + step_duration + "분, vehicle : " + vehicle);
-                    }
-                    Log.i(TAG, "=========================================");
-                }
-            }
-
-
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     class GetApi implements Runnable{
@@ -333,6 +281,14 @@ public class MainActivity extends AppCompatActivity{
                     }
                     routeFrame.addView(barLayout);
                     routeFrame.addView(barTextLayout);
+                    routeFrame.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(sup, DetailedInform.class);
+                            intent.putExtra("route_detail", detailObj.toString());
+                            startActivity(intent);
+                        }
+                    });
                     directionCardList.addView(routeFrame);
                 }
             }

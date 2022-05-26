@@ -24,11 +24,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/directionCard"
         android:layout_gravity="center"
         android:orientation="vertical">
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/directionCardText"
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:layout_margin="5dp">
@@ -60,7 +62,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/directionCardFrame">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,7 +129,7 @@
                     android:layout_weight="1"
                     android:textAlignment="center"></TextView>
             </LinearLayout>
-        </FrameLayout>
+        </FrameLayout>-->
 
     </LinearLayout>
     <View
@@ -234,6 +237,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:id="@+id/LastBaseLayout"
         android:layout_weight="1"
         android:orientation="horizontal"
         android:layout_margin="20dp">
@@ -279,6 +283,8 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

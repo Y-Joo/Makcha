@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity{
     public void clickSearchButton(View view){
 
         LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
+        directionCardList.removeAllViews();
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();

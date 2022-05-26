@@ -64,7 +64,7 @@ public class DetailedInform extends AppCompatActivity {
 //        makeCard(1, this, "쌍용스윗닷홈, 우성. 건영아파트",  "1660번 버스", middleBaseLayout);
 //        makeCard(2, this, "경의중앙선 도심역",  "", middleBaseLayout);
 //        makeCard(0, this, "도보 이동 00분 (도심역 -> 덕소역)",  "", middleBaseLayout);
-        
+        detailedPage.addView(middleBaseLayout);
 
     }
     //type 0: 도보 , 1: 버스 , 2: 지하철

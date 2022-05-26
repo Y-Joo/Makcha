@@ -40,7 +40,7 @@ public class DetailedInform extends AppCompatActivity {
         LinearLayout detailedPage = (LinearLayout)findViewById(R.id.detailedPage);
         //detailedPage.addView(makeTextOnBar());
         //detailedPage.addView(makeImageBar());
-        LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
+        LinearLayout directionCardInDetailedPage = (LinearLayout)findViewById(R.id.directionCardInDetailedPage);
 
         /////첫번째 레이아웃 !!!!!!!!!!!!여기에 정보 가져와야함..!!!!
         //cardview
@@ -50,7 +50,7 @@ public class DetailedInform extends AppCompatActivity {
         dividerParams.setMargins(20,20,20,20);
         divider.setBackgroundColor(getColor(com.google.android.libraries.places.R.color.quantum_grey));
         divider.setLayoutParams(dividerParams);
-        directionCardList.addView(divider);
+        directionCardInDetailedPage.addView(divider);
         Intent intent = getIntent();
 
 
@@ -112,7 +112,7 @@ public class DetailedInform extends AppCompatActivity {
             topBaseLayout.addView(takingTime);
             topBaseLayout.addView(departureTime);
             topBaseLayout.addView(arriveTime);
-            directionCardList.addView(topBaseLayout);
+            directionCardInDetailedPage.addView(topBaseLayout);
             JSONArray stepsArr = detailObj.getJSONArray("steps");
             long sum_step_duration = 0;
             ArrayList<Long> step_durations = new ArrayList<>();
@@ -169,7 +169,7 @@ public class DetailedInform extends AppCompatActivity {
             }
             routeFrame.addView(barLayout);
             routeFrame.addView(barTextLayout);
-            directionCardList.addView(routeFrame);
+            directionCardInDetailedPage.addView(routeFrame);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -243,12 +243,14 @@ public class DetailedInform extends AppCompatActivity {
         TextView firstRowStartView = new TextView(this);
         firstRowStartView.setLayoutParams(firstRowTextParams);
         firstRowStartView.setText("출발 시간");
+        firstRowStartView.setTextColor(getColor(R.color.black));
         firstRowStartView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         TextView firstRowEndView = new TextView(this);
         firstRowEndView.setLayoutParams(firstRowTextParams);
         firstRowEndView.setTextSize(10);
         firstRowEndView.setText("00시간 00분");    //연결해야할 변수
+        firstRowEndView.setTextColor(getColor(R.color.black));
         firstRowEndView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         //첫번째줄 2번째 텍스트뷰 첫차출발
@@ -264,12 +266,14 @@ public class DetailedInform extends AppCompatActivity {
         TextView firstRowSecondStartView = new TextView(this);
         firstRowSecondStartView.setLayoutParams(firstRowSecondTextParams);
         firstRowSecondStartView.setText("첫 탑승 시간");
+        firstRowSecondStartView.setTextColor(getColor(R.color.black));
         firstRowSecondStartView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         TextView firstRowSecondEndView = new TextView(this);
         firstRowSecondEndView.setLayoutParams(firstRowSecondTextParams);
         firstRowSecondEndView.setTextSize(10);
         firstRowSecondEndView.setText("00시간 00분");    //연결해야할 변수
+        firstRowSecondEndView.setTextColor(getColor(R.color.black));
         firstRowSecondEndView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
 
@@ -301,6 +305,7 @@ public class DetailedInform extends AppCompatActivity {
         TextView alarmText = new TextView(this);
         alarmText.setLayoutParams(alarmTextParams);
         alarmText.setText("알림 기능");
+        alarmText.setTextColor(getColor(R.color.black));
         alarmText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         secondRowfirst.addView(alarmText);
@@ -318,7 +323,7 @@ public class DetailedInform extends AppCompatActivity {
         directionCardLayout.setOrientation(LinearLayout.HORIZONTAL);
         directionCardLayout.setLayoutParams(directionCardParams);
         //카드안 사진
-        LinearLayout.LayoutParams directionImageParams = new LinearLayout.LayoutParams(0,120);
+        LinearLayout.LayoutParams directionImageParams = new LinearLayout.LayoutParams(0,180);
         directionImageParams.weight = 1;
         ImageView directionImage = new ImageView(this);
         if (type == 0) {
@@ -333,14 +338,14 @@ public class DetailedInform extends AppCompatActivity {
         directionImage.setLayoutParams(directionImageParams);
         directionCardLayout.addView(directionImage);
         //카드안 텍스트정보
-        LinearLayout.LayoutParams textInformParams = new LinearLayout.LayoutParams(0, 120);
+        LinearLayout.LayoutParams textInformParams = new LinearLayout.LayoutParams(0, 180);
         textInformParams.weight = 4;
         LinearLayout textInform = new LinearLayout(this);
         textInform.setOrientation(LinearLayout.VERTICAL);
         textInform.setPadding(20,20,20,20);
         textInform.setLayoutParams(textInformParams);
 
-        LinearLayout.LayoutParams locationTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 60);
+        LinearLayout.LayoutParams locationTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 90);
         locationTextParams.weight = 5;
         if (type == 1 || type == 2) {
             TextView locationText = new TextView(this);
@@ -379,7 +384,8 @@ public class DetailedInform extends AppCompatActivity {
         int size = Math.round(4 * dm.density);
 
         TextView barText = new TextView(parent);
-        barText.setText(time + "분");
+        if (time > 5)
+            barText.setText(time + "분");
         barText.setTextSize(size);
         barText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         LinearLayout.LayoutParams barTextLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);

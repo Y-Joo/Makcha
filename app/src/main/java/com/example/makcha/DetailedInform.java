@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -185,10 +186,14 @@ public class DetailedInform extends AppCompatActivity {
 
         //middle 중간 레이아웃 => 이미지 경로 나타냄
         LinearLayout.LayoutParams middleParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
-        middleParams.weight = 4;
         LinearLayout middleBaseLayout = new LinearLayout(this);
         middleBaseLayout.setOrientation(LinearLayout.VERTICAL);
         middleBaseLayout.setLayoutParams(middleParams);
+
+        LinearLayout.LayoutParams coverMiddleBaseLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+        coverMiddleBaseLayoutParams.weight = 4;
+        ScrollView coverMiddleBaseLayout = new ScrollView(this);
+        coverMiddleBaseLayout.setLayoutParams(coverMiddleBaseLayoutParams);
 
         JSONObject route_detail = null;
         try {
@@ -203,7 +208,7 @@ public class DetailedInform extends AppCompatActivity {
                     String departure_stop = step_obj.getJSONObject("transit_details").getJSONObject("departure_stop").getString("name");
                     String transit_inform = step_obj.getJSONObject("transit_details").getJSONObject("line").getString("short_name");
                     Log.i(TAG, departure_stop + transit_inform);
-                    if (step_type.equals("BUS"))
+                    if (step_obj.getJSONObject("transit_details").getJSONObject("line").getJSONObject("vehicle").getString("type").equals("BUS"))
                         makeCard(1, this, departure_stop, transit_inform + "번 버스", middleBaseLayout);
                     else
                         makeCard(2, this, departure_stop, "지하철 " + transit_inform, middleBaseLayout);
@@ -218,7 +223,9 @@ public class DetailedInform extends AppCompatActivity {
 //        makeCard(1, this, "쌍용스윗닷홈, 우성. 건영아파트",  "1660번 버스", middleBaseLayout);
 //        makeCard(2, this, "경의중앙선 도심역",  "", middleBaseLayout);
 //        makeCard(0, this, "도보 이동 00분 (도심역 -> 덕소역)",  "", middleBaseLayout);
-        detailedPage.addView(middleBaseLayout);
+
+        coverMiddleBaseLayout.addView(middleBaseLayout);
+        detailedPage.addView(coverMiddleBaseLayout);
 
 
 
@@ -327,13 +334,13 @@ public class DetailedInform extends AppCompatActivity {
         directionImageParams.weight = 1;
         ImageView directionImage = new ImageView(this);
         if (type == 0) {
-            directionImage.setBackgroundResource(R.drawable.bus_image_removebg);
+            directionImage.setBackgroundResource(R.drawable.pave_removebg);
         }
         else if (type == 1) {
-            directionImage.setBackgroundResource(R.drawable.subway_image);
+            directionImage.setBackgroundResource(R.drawable.bus_image_removebg);
         }
         else if (type == 2) {
-            directionImage.setBackgroundResource(R.drawable.pave_removebg);
+            directionImage.setBackgroundResource(R.drawable.subway_image);
         }
         directionImage.setLayoutParams(directionImageParams);
         directionCardLayout.addView(directionImage);

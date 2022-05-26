@@ -318,7 +318,8 @@ public class MainActivity extends AppCompatActivity{
         int size = Math.round(4 * dm.density);
 
         TextView barText = new TextView(parent);
-        barText.setText(time + "분");
+        if (time > 5)
+            barText.setText(time + "분");
         barText.setTextSize(size);
         barText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         LinearLayout.LayoutParams barTextLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);

@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.LocalTime;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -38,6 +37,10 @@ import java.io.IOException;
 import java.sql.Array;
 import java.sql.Time;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -136,6 +139,16 @@ public class MainActivity extends AppCompatActivity{
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         String url_str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + Double.toString(departure_latlng.latitude) + "," + Double.toString(departure_latlng.longitude) + "&destination=" + Double.toString(arrive_latlng.latitude) + "," + Double.toString(arrive_latlng.longitude) + "&mode=transit&alternatives=true&language=ko&key=" + getString(R.string.api_key);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDateTime localDateTime = LocalDateTime.now();
+            int hour = localDateTime.getHour();
+            if (hour > 3)
+                localDateTime = localDateTime.plusDays(1);
+            LocalDateTime newLocalDateTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 3, 0);
+            long epochSecond = newLocalDateTime.toEpochSecond(ZoneOffset.of("+09:00"));
+            url_str += "&arrival_time=" + epochSecond;
+        }
+
         Request request = new Request.Builder()
                 .url(url_str)
                 .method("GET", null)
@@ -215,10 +228,17 @@ public class MainActivity extends AppCompatActivity{
                     arriveTime.setPadding(0,0,50,0);
                     textParams3.weight = 1;
                     arriveTime.setLayoutParams(textParams3);
-
                     topBaseLayout.addView(takingTime);
                     topBaseLayout.addView(departureTime);
                     topBaseLayout.addView(arriveTime);
+                    topBaseLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(sup, DetailedInform.class);
+                            intent.putExtra("route_detail", detailObj.toString());
+                            startActivity(intent);
+                        }
+                    });
                     directionCardList.addView(topBaseLayout);
                     JSONArray stepsArr = detailObj.getJSONArray("steps");
                     long sum_step_duration = 0;
@@ -228,17 +248,12 @@ public class MainActivity extends AppCompatActivity{
                     for(int k = 0;k < stepsArr.length(); k++)
                     {
                         JSONObject stepObj = stepsArr.getJSONObject(k);
-                        //duration, vehicle
                         long step_duration = (stepObj.getJSONObject("duration").getLong("value") + 30) / 60;
                         String vehicle;
-                        if (stepObj.getString("travel_mode").equals("TRANSIT")) {
+                        if (stepObj.getString("travel_mode").equals("TRANSIT"))
                             vehicle = stepObj.getJSONObject("transit_details").getJSONObject("line").getJSONObject("vehicle").getString("type");
-                            //Log.i(TAG, "step : " + stepObj.getString("html_instructions") + ", departure_stop : " + stepObj.getJSONObject("transit_details").getJSONObject("departure_stop").getString("name") + ", departure_name : " + stepObj.getJSONObject("transit_details").getJSONObject("departure_time").getString("text") + ", arrival_stop : " + stepObj.getJSONObject("transit_details").getJSONObject("arrival_stop").getString("name") + ", arrival_time : " + stepObj.getJSONObject("transit_details").getJSONObject("arrival_time").getString("text"));
-                        }
-                        else {
+                        else
                             vehicle = "WALKING";
-                            //Log.i(TAG, "step : " + stepObj.getString("html_instructions"));
-                        }
                         step_durations.add(step_duration);
                         vehicles.add(vehicle);
                         sum_step_duration += step_duration;

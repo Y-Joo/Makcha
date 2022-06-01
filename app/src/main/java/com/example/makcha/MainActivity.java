@@ -379,7 +379,6 @@ public class MainActivity extends AppCompatActivity{
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void madeFirstBusDirection(){
         LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
-        directionCardList.removeAllViews();
 
         LinearLayout.LayoutParams firstBusParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         firstBusParams.setMargins(40,5,0,5);

@@ -139,13 +139,12 @@ public class MainActivity extends AppCompatActivity{
     public void clickSearchButton(View view){
 
         LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
-        directionCardList.removeAllViews();
 
         LinearLayout.LayoutParams firstBusParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         firstBusParams.setMargins(40,5,0,5);
         TextView firstBus = new TextView(this);
         firstBus.setLayoutParams(firstBusParams);
-        firstBus.setText("막차 경로");
+        firstBus.setText("첫차 경로");
         firstBus.setTextSize(15);
         firstBus.setTextColor(getColor(R.color.black));
 
@@ -381,23 +380,21 @@ public class MainActivity extends AppCompatActivity{
     public void madeFirstBusDirection(){
         LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
 
+        LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
+        directionCardList.removeAllViews();
+
         LinearLayout.LayoutParams firstBusParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        firstBusParams.setMargins(40,40,0,5);
+        firstBusParams.setMargins(40,5,0,5);
         TextView firstBus = new TextView(this);
         firstBus.setLayoutParams(firstBusParams);
-        firstBus.setText("첫차 경로");
+        firstBus.setText("막차 경로");
+        firstBus.setTextSize(15);
         firstBus.setTextColor(getColor(R.color.black));
-        View divider = new View(this);
-        LinearLayout.LayoutParams dividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 4);
-        dividerParams.setMargins(20,20,20,20);
-        divider.setBackgroundColor(getColor(com.google.android.libraries.places.R.color.quantum_grey));
-        divider.setLayoutParams(dividerParams);
 
         directionCardList.addView(firstBus);
-        directionCardList.addView(divider);
 
         LinearLayout.LayoutParams tableAttributeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        tableAttributeParams.setMargins(40,5,40,5);
+        tableAttributeParams.setMargins(40,5,40,0);
         LinearLayout tableAttribute = new LinearLayout(this);
         tableAttribute.setLayoutParams(tableAttributeParams);
         tableAttribute.setOrientation(LinearLayout.HORIZONTAL);
@@ -405,23 +402,36 @@ public class MainActivity extends AppCompatActivity{
         TextView timeLast = new TextView(this);
         timeLast.setTextSize(10);
         timeLast.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        LinearLayout.LayoutParams timeLastParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        timeLast.setTextColor(getColor(R.color.black));
+        timeLast.setText("남은 시간");
+        LinearLayout.LayoutParams timeLastParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         timeLastParams.weight = 1;
         timeLast.setLayoutParams(timeLastParams);
 
         TextView timeDuring = new TextView(this);
         timeDuring.setTextSize(10);
-        timeLast.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        LinearLayout.LayoutParams timeDuringParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        timeDuring.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        timeDuring.setTextColor(getColor(R.color.black));
+        timeDuring.setText("걸리는 시간");
+        LinearLayout.LayoutParams timeDuringParams =new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         timeDuringParams.weight = 1;
         timeDuring.setLayoutParams(timeDuringParams);
 
         TextView timeArrive = new TextView(this);
         timeArrive.setTextSize(10);
-        timeLast.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        LinearLayout.LayoutParams timeArriveParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        timeArrive.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        timeArrive.setTextColor(getColor(R.color.black));
+        timeArrive.setText("도착 시간");
+        LinearLayout.LayoutParams timeArriveParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         timeArriveParams.weight = 1;
+        timeArrive.setPadding(0,0,50,0);
         timeArrive.setLayoutParams(timeArriveParams);
+
+        tableAttribute.addView(timeLast);
+        tableAttribute.addView(timeDuring);
+        tableAttribute.addView(timeArrive);
+
+        directionCardList.addView(tableAttribute);
 
 
 
@@ -431,11 +441,11 @@ public class MainActivity extends AppCompatActivity{
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             LocalDateTime localDateTime = LocalDateTime.now();
             int hour = localDateTime.getHour();
-            if (hour > 4)
+            if (hour > 3)
                 localDateTime = localDateTime.plusDays(1);
-            LocalDateTime newLocalDateTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 5, 0);
+            LocalDateTime newLocalDateTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 3, 0);
             long epochSecond = newLocalDateTime.toEpochSecond(ZoneOffset.of("+09:00"));
-            url_str += "&departure_time=" + epochSecond;
+            url_str += "&arrival_time=" + epochSecond;
         }
 
         Request request = new Request.Builder()
@@ -457,12 +467,12 @@ public class MainActivity extends AppCompatActivity{
                 {
                     //cardview
                     //divider
-                    View divider2 = new View(this);
-                    LinearLayout.LayoutParams divider2Params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 4);
-                    divider2Params.setMargins(20,20,20,20);
-                    divider2.setBackgroundColor(getColor(com.google.android.libraries.places.R.color.quantum_grey));
-                    divider2.setLayoutParams(dividerParams);
-                    directionCardList.addView(divider2);
+                    View divider = new View(this);
+                    LinearLayout.LayoutParams dividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 4);
+                    dividerParams.setMargins(20,20,20,20);
+                    divider.setBackgroundColor(getColor(com.google.android.libraries.places.R.color.quantum_grey));
+                    divider.setLayoutParams(dividerParams);
+                    directionCardList.addView(divider);
 
                     JSONObject detailObj = legsArr.getJSONObject(j);
                     //arrival time, departure time, duration - value
@@ -489,8 +499,13 @@ public class MainActivity extends AppCompatActivity{
                     //int providedDepartureMinutes = 0;
                     //LocalTime providedDepartureTime = LocalTime.newInstance(providedDepartureHours, providedDepartureMinutes);  //도착 시간
                     TextView departureTime = new TextView(getApplicationContext());
-                    departureTime.setText(departure_time + "분");
-                    departureTime.setTextSize(20);
+                    if (departure_time < 60)
+                        departureTime.setText(departure_time + "분");
+                    else{
+                        long hour = departure_time / 60;
+                        long minute = departure_time % 60;
+                        departureTime.setText(hour + "시간 " + minute +"분");
+                    }                    departureTime.setTextSize(20);
                     departureTime.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
                     LinearLayout.LayoutParams textParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     //textParams2.setMargins(100, 0,0, 0);
@@ -517,8 +532,8 @@ public class MainActivity extends AppCompatActivity{
                     arriveTime.setPadding(0,0,50,0);
                     textParams3.weight = 1;
                     arriveTime.setLayoutParams(textParams3);
-                    topBaseLayout.addView(takingTime);
                     topBaseLayout.addView(departureTime);
+                    topBaseLayout.addView(takingTime);
                     topBaseLayout.addView(arriveTime);
                     topBaseLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -599,7 +614,6 @@ public class MainActivity extends AppCompatActivity{
         } catch (JSONException | InterruptedException e) {
             e.printStackTrace();
         }
-
 
     }
     public void makeTextOnBar (Context parent, Long time, Long totalTime, LinearLayout barTextLayout)

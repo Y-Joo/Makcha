@@ -139,12 +139,13 @@ public class MainActivity extends AppCompatActivity{
     public void clickSearchButton(View view){
 
         LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
+        directionCardList.removeAllViews();
 
         LinearLayout.LayoutParams firstBusParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         firstBusParams.setMargins(40,5,0,5);
         TextView firstBus = new TextView(this);
         firstBus.setLayoutParams(firstBusParams);
-        firstBus.setText("첫차 경로");
+        firstBus.setText("막차 경로");
         firstBus.setTextSize(15);
         firstBus.setTextColor(getColor(R.color.black));
 
@@ -381,11 +382,10 @@ public class MainActivity extends AppCompatActivity{
         LinearLayout directionCardList = (LinearLayout)findViewById(R.id.directionCardList);
 
         LinearLayout.LayoutParams firstBusParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        firstBusParams.setMargins(40,5,0,5);
+        firstBusParams.setMargins(40,40,0,5);
         TextView firstBus = new TextView(this);
         firstBus.setLayoutParams(firstBusParams);
-        firstBus.setText("막차 경로");
-        firstBus.setTextSize(15);
+        firstBus.setText("첫차 경로");
         firstBus.setTextColor(getColor(R.color.black));
 
         directionCardList.addView(firstBus);
@@ -430,19 +430,17 @@ public class MainActivity extends AppCompatActivity{
 
         directionCardList.addView(tableAttribute);
 
-
-
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         String url_str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + Double.toString(departure_latlng.latitude) + "," + Double.toString(departure_latlng.longitude) + "&destination=" + Double.toString(arrive_latlng.latitude) + "," + Double.toString(arrive_latlng.longitude) + "&mode=transit&alternatives=true&language=ko&key=" + getString(R.string.api_key);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             LocalDateTime localDateTime = LocalDateTime.now();
             int hour = localDateTime.getHour();
-            if (hour > 3)
+            if (hour > 4)
                 localDateTime = localDateTime.plusDays(1);
-            LocalDateTime newLocalDateTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 3, 0);
+            LocalDateTime newLocalDateTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 5, 0);
             long epochSecond = newLocalDateTime.toEpochSecond(ZoneOffset.of("+09:00"));
-            url_str += "&arrival_time=" + epochSecond;
+            url_str += "&departure_time=" + epochSecond;
         }
 
         Request request = new Request.Builder()
@@ -464,12 +462,12 @@ public class MainActivity extends AppCompatActivity{
                 {
                     //cardview
                     //divider
-                    View divider = new View(this);
-                    LinearLayout.LayoutParams dividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 4);
-                    dividerParams.setMargins(20,20,20,20);
-                    divider.setBackgroundColor(getColor(com.google.android.libraries.places.R.color.quantum_grey));
-                    divider.setLayoutParams(dividerParams);
-                    directionCardList.addView(divider);
+                    View divider2 = new View(this);
+                    LinearLayout.LayoutParams divider2Params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 4);
+                    divider2Params.setMargins(20,20,20,20);
+                    divider2.setBackgroundColor(getColor(com.google.android.libraries.places.R.color.quantum_grey));
+                    divider2.setLayoutParams(divider2Params);
+                    directionCardList.addView(divider2);
 
                     JSONObject detailObj = legsArr.getJSONObject(j);
                     //arrival time, departure time, duration - value
@@ -502,7 +500,7 @@ public class MainActivity extends AppCompatActivity{
                         long hour = departure_time / 60;
                         long minute = departure_time % 60;
                         departureTime.setText(hour + "시간 " + minute +"분");
-                    }                    departureTime.setTextSize(20);
+                    }                            departureTime.setTextSize(20);
                     departureTime.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
                     LinearLayout.LayoutParams textParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     //textParams2.setMargins(100, 0,0, 0);
@@ -611,6 +609,7 @@ public class MainActivity extends AppCompatActivity{
         } catch (JSONException | InterruptedException e) {
             e.printStackTrace();
         }
+
 
     }
     public void makeTextOnBar (Context parent, Long time, Long totalTime, LinearLayout barTextLayout)

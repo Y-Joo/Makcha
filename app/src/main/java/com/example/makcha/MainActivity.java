@@ -431,11 +431,11 @@ public class MainActivity extends AppCompatActivity{
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             LocalDateTime localDateTime = LocalDateTime.now();
             int hour = localDateTime.getHour();
-            if (hour > 3)
+            if (hour > 4)
                 localDateTime = localDateTime.plusDays(1);
-            LocalDateTime newLocalDateTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 3, 0);
+            LocalDateTime newLocalDateTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 5, 0);
             long epochSecond = newLocalDateTime.toEpochSecond(ZoneOffset.of("+09:00"));
-            url_str += "&arrival_time=" + epochSecond;
+            url_str += "&departure_time=" + epochSecond;
         }
 
         Request request = new Request.Builder()

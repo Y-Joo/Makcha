@@ -293,31 +293,31 @@ public class DetailedInform extends AppCompatActivity {
         detailedPage.addView(LastBaseLayout);
 
         //둘째줄
-        LinearLayout.LayoutParams secondRowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
-        secondRowParams.weight = 1;
-        secondRowParams.setMargins(40,40,40,40);
-        LinearLayout secondRow = new LinearLayout(this);
-        secondRow.setLayoutParams(secondRowParams);
-        secondRow.setOrientation(LinearLayout.HORIZONTAL);
+//        LinearLayout.LayoutParams secondRowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+//        secondRowParams.weight = 1;
+//        secondRowParams.setMargins(40,40,40,40);
+//        LinearLayout secondRow = new LinearLayout(this);
+//        secondRow.setLayoutParams(secondRowParams);
+//        secondRow.setOrientation(LinearLayout.HORIZONTAL);
+//
+//        LinearLayout.LayoutParams secondRowfirstParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
+//        secondRowfirstParams.weight = 1;
+//        secondRowfirstParams.setMargins(20,20,20,20);
+//        LinearLayout secondRowfirst = new LinearLayout(this);
+//        secondRowfirst.setOrientation(LinearLayout.VERTICAL);
+//        secondRowfirst.setGravity(Gravity.CENTER_VERTICAL);
+//        secondRowfirst.setLayoutParams(secondRowfirstParams);
+//
+//        LinearLayout.LayoutParams alarmTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        TextView alarmText = new TextView(this);
+//        alarmText.setLayoutParams(alarmTextParams);
+//        alarmText.setText("알림 기능");
+//        alarmText.setTextColor(getColor(R.color.black));
+//        alarmText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-        LinearLayout.LayoutParams secondRowfirstParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
-        secondRowfirstParams.weight = 1;
-        secondRowfirstParams.setMargins(20,20,20,20);
-        LinearLayout secondRowfirst = new LinearLayout(this);
-        secondRowfirst.setOrientation(LinearLayout.VERTICAL);
-        secondRowfirst.setGravity(Gravity.CENTER_VERTICAL);
-        secondRowfirst.setLayoutParams(secondRowfirstParams);
-
-        LinearLayout.LayoutParams alarmTextParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView alarmText = new TextView(this);
-        alarmText.setLayoutParams(alarmTextParams);
-        alarmText.setText("알림 기능");
-        alarmText.setTextColor(getColor(R.color.black));
-        alarmText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-
-        secondRowfirst.addView(alarmText);
-        secondRow.addView(secondRowfirst);
-        detailedPage.addView(secondRow);
+        //secondRowfirst.addView(alarmText);
+        //secondRow.addView(secondRowfirst);
+        //detailedPage.addView(secondRow);
 
     }
     //type 0: 도보 , 1: 버스 , 2: 지하철

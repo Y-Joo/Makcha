@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DetailedInform extends AppCompatActivity {
+    private String first_transit_time;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -124,14 +125,20 @@ public class DetailedInform extends AppCompatActivity {
             long sum_step_duration = 0;
             ArrayList<Long> step_durations = new ArrayList<>();
             ArrayList<String> vehicles = new ArrayList<>();
+            boolean flag = false;
 
             for(int k = 0;k < stepsArr.length(); k++)
             {
                 JSONObject stepObj = stepsArr.getJSONObject(k);
                 long step_duration = (stepObj.getJSONObject("duration").getLong("value") + 30) / 60;
                 String vehicle;
-                if (stepObj.getString("travel_mode").equals("TRANSIT"))
+                if (stepObj.getString("travel_mode").equals("TRANSIT")) {
                     vehicle = stepObj.getJSONObject("transit_details").getJSONObject("line").getJSONObject("vehicle").getString("type");
+                    if (!flag){
+                        first_transit_time = stepObj.getJSONObject("transit_details").getJSONObject("departure_time").getString("text");
+                        flag = true;
+                    }
+                }
                 else
                     vehicle = "WALKING";
                 step_durations.add(step_duration);
@@ -262,7 +269,12 @@ public class DetailedInform extends AppCompatActivity {
         TextView firstRowEndView = new TextView(this);
         firstRowEndView.setLayoutParams(firstRowTextParams);
         firstRowEndView.setTextSize(10);
-        firstRowEndView.setText("00시간 00분");    //연결해야할 변수
+        try {
+            assert detailObj != null;
+            firstRowEndView.setText(detailObj.getJSONObject("departure_time").getString("text"));    //연결해야할 변수
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         firstRowEndView.setTextColor(getColor(R.color.black));
         firstRowEndView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
@@ -285,7 +297,7 @@ public class DetailedInform extends AppCompatActivity {
         TextView firstRowSecondEndView = new TextView(this);
         firstRowSecondEndView.setLayoutParams(firstRowSecondTextParams);
         firstRowSecondEndView.setTextSize(10);
-        firstRowSecondEndView.setText("00시간 00분");    //연결해야할 변수
+        firstRowSecondEndView.setText(first_transit_time);    //연결해야할 변수
         firstRowSecondEndView.setTextColor(getColor(R.color.black));
         firstRowSecondEndView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 

@@ -249,6 +249,7 @@ public class DetailedInform extends AppCompatActivity {
         LinearLayout LastBaseLayout = new LinearLayout(this);
         LastBaseLayout.setOrientation(LinearLayout.HORIZONTAL);
         LastBaseLayout.setLayoutParams(lastParams);
+        //LastBaseLayout.setBackgroundColor(getResources().getColor(R.color.tossblue));
 
         //첫째줄 출발시간
         LinearLayout.LayoutParams firstRowParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -263,20 +264,28 @@ public class DetailedInform extends AppCompatActivity {
         TextView firstRowStartView = new TextView(this);
         firstRowStartView.setLayoutParams(firstRowTextParams);
         firstRowStartView.setText("출발 시간");
-        firstRowStartView.setTextColor(getColor(R.color.black));
+        firstRowStartView.setTextSize(20);
+        //firstRowStartView.setTextColor(getColor(R.color.white));
         firstRowStartView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         TextView firstRowEndView = new TextView(this);
         firstRowEndView.setLayoutParams(firstRowTextParams);
-        firstRowEndView.setTextSize(10);
+        firstRowEndView.setTextSize(15);
         try {
             assert detailObj != null;
             firstRowEndView.setText(detailObj.getJSONObject("departure_time").getString("text"));    //연결해야할 변수
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        firstRowEndView.setTextColor(getColor(R.color.black));
+        //firstRowEndView.setTextColor(getColor(R.color.white));
         firstRowEndView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        //divider
+        View dividerVertical = new View(this);
+        LinearLayout.LayoutParams dividerVerticalParams = new LinearLayout.LayoutParams(4, LinearLayout.LayoutParams.MATCH_PARENT);
+        dividerVerticalParams.setMargins(20,20,20,20);
+        dividerVertical.setBackgroundColor(getColor(com.google.android.libraries.places.R.color.quantum_grey));
+        dividerVertical.setLayoutParams(dividerVerticalParams);
 
         //첫번째줄 2번째 텍스트뷰 첫차출발
         LinearLayout.LayoutParams firstRowSecondParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -291,14 +300,15 @@ public class DetailedInform extends AppCompatActivity {
         TextView firstRowSecondStartView = new TextView(this);
         firstRowSecondStartView.setLayoutParams(firstRowSecondTextParams);
         firstRowSecondStartView.setText("첫 탑승 시간");
-        firstRowSecondStartView.setTextColor(getColor(R.color.black));
+        firstRowSecondStartView.setTextSize(20);
+        //firstRowSecondStartView.setTextColor(getColor(R.color.white));
         firstRowSecondStartView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         TextView firstRowSecondEndView = new TextView(this);
         firstRowSecondEndView.setLayoutParams(firstRowSecondTextParams);
-        firstRowSecondEndView.setTextSize(10);
+        firstRowSecondEndView.setTextSize(15);
         firstRowSecondEndView.setText(first_transit_time);    //연결해야할 변수
-        firstRowSecondEndView.setTextColor(getColor(R.color.black));
+        //firstRowSecondEndView.setTextColor(getColor(R.color.white));
         firstRowSecondEndView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
 
@@ -307,6 +317,7 @@ public class DetailedInform extends AppCompatActivity {
         firstRowSecond.addView(firstRowSecondStartView);
         firstRowSecond.addView(firstRowSecondEndView);
         LastBaseLayout.addView(firstRow);
+        LastBaseLayout.addView(dividerVertical);
         LastBaseLayout.addView(firstRowSecond);
         detailedPage.addView(LastBaseLayout);
 

@@ -91,7 +91,13 @@ public class DetailedInform extends AppCompatActivity {
             //int providedDepartureMinutes = 0;
             //LocalTime providedDepartureTime = LocalTime.newInstance(providedDepartureHours, providedDepartureMinutes);  //도착 시간
             TextView departureTime = new TextView(getApplicationContext());
-            departureTime.setText(departure_time + "분");
+            if (departure_time < 60)
+                departureTime.setText(departure_time + "분");
+            else{
+                long hour = departure_time / 60;
+                long minute = departure_time % 60;
+                departureTime.setText(hour + "시간 " + minute +"분");
+            }
             departureTime.setTextSize(20);
             departureTime.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             LinearLayout.LayoutParams textParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -110,8 +116,8 @@ public class DetailedInform extends AppCompatActivity {
             arriveTime.setPadding(0,0,50,0);
             textParams3.weight = 1;
             arriveTime.setLayoutParams(textParams3);
-            topBaseLayout.addView(takingTime);
             topBaseLayout.addView(departureTime);
+            topBaseLayout.addView(takingTime);
             topBaseLayout.addView(arriveTime);
             directionCardInDetailedPage.addView(topBaseLayout);
             JSONArray stepsArr = detailObj.getJSONArray("steps");
@@ -314,6 +320,7 @@ public class DetailedInform extends AppCompatActivity {
 //        alarmText.setText("알림 기능");
 //        alarmText.setTextColor(getColor(R.color.black));
 //        alarmText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
 
         //secondRowfirst.addView(alarmText);
         //secondRow.addView(secondRowfirst);

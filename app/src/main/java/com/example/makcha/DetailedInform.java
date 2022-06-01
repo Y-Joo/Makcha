@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -242,6 +243,8 @@ public class DetailedInform extends AppCompatActivity {
 
 
 
+        //폰트 적용
+        //Typeface typeFace = Typeface.createFromAsset(getAssets(), "applefont.otf");
         //세번째 정보
         LinearLayout.LayoutParams lastParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
         lastParams.weight = 1;
@@ -271,6 +274,7 @@ public class DetailedInform extends AppCompatActivity {
         TextView firstRowEndView = new TextView(this);
         firstRowEndView.setLayoutParams(firstRowTextParams);
         firstRowEndView.setTextSize(15);
+
         try {
             assert detailObj != null;
             firstRowEndView.setText(detailObj.getJSONObject("departure_time").getString("text"));    //연결해야할 변수
@@ -301,6 +305,7 @@ public class DetailedInform extends AppCompatActivity {
         firstRowSecondStartView.setLayoutParams(firstRowSecondTextParams);
         firstRowSecondStartView.setText("첫 탑승 시간");
         firstRowSecondStartView.setTextSize(20);
+        //firstRowSecondStartView.setTypeface();
         //firstRowSecondStartView.setTextColor(getColor(R.color.white));
         firstRowSecondStartView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
